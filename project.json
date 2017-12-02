@@ -17,6 +17,7 @@
         "src/test1.js",
         "src/test2.js",
         "src/test3.js",
+        "src/test31.js",
         "src/app.js"
     ]
 }

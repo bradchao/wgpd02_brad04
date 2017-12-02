@@ -3,6 +3,7 @@ var res = {
     Back_normal_png : "res/back_normal.png",
     Back_selected_png : "res/back_selected.png",
     Back_disselect_png : "res/back_disselect.png",
+    Home_png : "res/home.png",
 };
 
 var g_resources = [];
