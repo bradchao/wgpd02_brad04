@@ -35,7 +35,7 @@ var Test31Layer = cc.Layer.extend({
         cc.director.popScene();
     },
     home: function () {
-        cc.log("Home");
+        cc.director.popToRootScene();
     },
 
 });

@@ -34,7 +34,7 @@ var MainMenuLayer = cc.Layer.extend({
         cc.director.pushScene(new Test3Scene());
     },
     doItem4: function () {
-        cc.log("item4");
+        cc.director.pushScene(new Test4Scene());
     },
 
 });
