@@ -24,10 +24,18 @@ var Test4Layer = cc.Layer.extend({
         var next3Item = new cc.MenuItemFont("Next3", this.next3, this);
         var next4Item = new cc.MenuItemFont("Next4", this.next4, this);
 
+        backItem.x = 0 - cc.winSize.width/2 + backItem.width;
+        backItem.y = 0 - cc.winSize.height/2 + backItem.height;
+
+        next1Item.x = 0; next1Item.y = 150;
+        next2Item.x = 0; next2Item.y = 50;
+        next3Item.x = 0; next3Item.y = -50;
+        next4Item.x = 0; next4Item.y = -150;
+
         var menu = new cc.Menu(
             next1Item,next2Item,next3Item,next4Item,
             backItem);
-        menu.alignItemsVertically();
+        //menu.alignItemsVertically();
         this.addChild(menu);
 
     },
@@ -36,17 +44,43 @@ var Test4Layer = cc.Layer.extend({
         cc.director.popScene();
     },
     next1: function () {
-
+        cc.director.pushScene(
+            new cc.TransitionFadeTR(3, new Test41Scene())
+        );
     },
     next2: function () {
-
+        cc.director.pushScene(
+            new cc.TransitionJumpZoom(3, new Test41Scene())
+        );
     },
     next3: function () {
-
+        cc.director.pushScene(
+            new cc.TransitionCrossFade(3, new Test41Scene())
+        );
     },
     next4: function () {
+        cc.director.pushScene(
+            new cc.TransitionProgressRadialCW(3, new Test41Scene())
+        );
+    },
+
+    onEnter: function () {
 
     },
+
+    onExit: function () {
+
+    },
+
+    onEnterTransitionDidFinish: function () {
+
+    },
+
+    onExitTransitionDidStart: function () {
+
+    },
+
+
 
 });
 

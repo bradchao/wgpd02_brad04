@@ -4,6 +4,7 @@ var res = {
     Back_selected_png : "res/back_selected.png",
     Back_disselect_png : "res/back_disselect.png",
     Home_png : "res/home.png",
+    bg : "res/bg.jpg",
 };
 
 var g_resources = [];
