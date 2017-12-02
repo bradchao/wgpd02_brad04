@@ -6,7 +6,6 @@ var Test1Layer = cc.Layer.extend({
 
         this.initMenu();
 
-
         return true;
     },
 

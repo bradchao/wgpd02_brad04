@@ -1,20 +1,11 @@
 
 var Test5Layer = cc.Layer.extend({
-    ball:null,
-    var2: 147,
+    balls: [res.ball0, res.ball1, res.ball2, res.ball3, res.ball4],
+    isPause: false,
     ctor:function () {
         this._super();
 
-        this.ball = new Ball(res.ball, 8, 8);
-        this.ball.x = cc.winSize.width / 2;
-        this.ball.y = cc.winSize.height / 10;
-        this.addChild(this.ball);
-
-        this.ball.schedule(
-            this.balltask, 0.01, cc.REPEAT_FOREVER, 1);
-
         this.initListener();
-
 
         return true;
     },
@@ -28,15 +19,45 @@ var Test5Layer = cc.Layer.extend({
             }
         };
         cc.eventManager.addListener(myMouseListener, this);
+
+        var myKeyListener = {
+            event: cc.EventListener.KEYBOARD,
+            onKeyPressed: function (keyCode, event) {
+                var layer = event.getCurrentTarget();
+                if (keyCode == cc.KEY.space){
+                    cc.log('key');
+                    layer.pauseTask();
+                }
+            }
+        };
+        cc.eventManager.addListener(myKeyListener, this);
+    },
+
+    pauseTask: function () {
+       this.isPause = !this.isPause;
+       cc.log(this.isPause);
     },
 
     addBall: function (x, y) {
-        cc.log('addBall:' + x + " x " + y);
+        //cc.log('addBall:' + x + " x " + y);
+        var ball = new Ball(
+            this.balls[parseInt(Math.random()*5)],
+            parseInt(Math.random()*24) - 12,
+            parseInt(Math.random()*24) - 12
+        );
+        ball.x = x;
+        ball.y = y;
+        this.addChild(ball);
+
+        ball.schedule(
+            this.balltask, 0.01, cc.REPEAT_FOREVER, 1);
     },
 
     balltask: function () {
-        // this => who schedule
+        // this => who schedule ==> Ball Object
         var layer = this.getParent();
+
+        if (layer.isPause) return;
 
         if (this.x - this.width/2 < 0 ||
         this.x + this.width/2 > cc.winSize.width){
@@ -56,8 +77,8 @@ var Test5Layer = cc.Layer.extend({
 });
 
 var Ball = cc.Sprite.extend({
-    dx: 0,
-    dy: 0,
+    dx: 0,  // 單位時間內的移動x距離
+    dy: 0,  // 單位時間內的移動y距離
     ctor: function (img, dx, dy) {
         this._super(img);
         this.dx = dx; this.dy = dy;
