@@ -1,13 +1,10 @@
 
-var Test2Layer = cc.Layer.extend({
+var Test3Layer = cc.Layer.extend({
     sprite:null,
-    data:null,
-    ctor:function (data) {
+    ctor:function () {
         this._super();
 
-        this.data = data;
-
-        var title = new cc.LabelTTF("Test 2:" + this.data, "", 48);
+        var title = new cc.LabelTTF("Test 3", "", 48);
         title.x = cc.winSize.width / 2;
         title.y = cc.winSize.height * 9 / 10;
         this.addChild(title);
@@ -29,33 +26,17 @@ var Test2Layer = cc.Layer.extend({
     },
 
     back: function () {
-        cc.log('back:2');
         cc.director.popScene();
     }
 
 });
 
-var Test2Scene = cc.Scene.extend({
-    data:null,
-    ctor: function (data) {
-        this._super();
-        //cc.log("Test2Scene:ctor:" + data);
-
-        this.data = data;
-        var layer = new Test2Layer(this.data);
-        this.addChild(layer);
-
-
-    },
-
-    /*
+var Test3Scene = cc.Scene.extend({
     onEnter:function () {
-        //this._super();
-        cc.log("onEnter:data = " + this.data);
-        var layer = new Test2Layer(this.data);
+        this._super();
+        var layer = new Test3Layer();
         this.addChild(layer);
     }
-    */
 
 });
 
