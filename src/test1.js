@@ -4,11 +4,26 @@ var Test1Layer = cc.Layer.extend({
     ctor:function () {
         this._super();
 
-
+        this.initMenu();
 
 
         return true;
+    },
+
+    initMenu: function () {
+        var backItem = cc.MenuItemImage.create(res.Back_normal_png,
+            res.Back_selected_png, res.Back_disselect_png,
+            this.back, this);
+
+        var menu = new cc.Menu(backItem);
+        this.addChild(menu);
+
+    },
+
+    back: function () {
+
     }
+
 });
 
 var Test1Scene = cc.Scene.extend({
