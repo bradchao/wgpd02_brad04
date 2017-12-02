@@ -21,7 +21,7 @@ var Test1Layer = cc.Layer.extend({
     },
 
     back: function () {
-
+        cc.director.popScene();
     }
 
 });

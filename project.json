@@ -15,6 +15,7 @@
         "src/resource.js",
         "src/mainmenu.js",
         "src/test1.js",
+        "src/test2.js",
         "src/app.js"
     ]
 }
