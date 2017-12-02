@@ -3,7 +3,7 @@ var Test41Layer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         this._super();
-
+        cc.log('41ctor');
         var bg = new cc.Sprite(res.bg);
         bg.x = cc.winSize.width / 2;
         bg.y = cc.winSize.height / 2;
@@ -46,7 +46,21 @@ var Test41Layer = cc.Layer.extend({
     home: function () {
         cc.director.popToRootScene();
     },
+    onEnter: function () {
+        //cc.log('41onEnter');
+    },
 
+    onExit: function () {
+        //cc.log('41onExit');
+    },
+
+    onEnterTransitionDidFinish: function () {
+        //cc.log('41onEnterTransitionDidFinish');
+    },
+
+    onExitTransitionDidStart: function () {
+        //cc.log('41onExitTransitionDidStart');
+    },
 });
 
 var Test41Scene = cc.Scene.extend({

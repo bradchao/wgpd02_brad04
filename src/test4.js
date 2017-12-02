@@ -3,8 +3,14 @@ var Test4Layer = cc.Layer.extend({
     sprite:null,
     ctor:function () {
         this._super();
+        cc.log("ctor");
+        cc.log("test4:" + var1);
+        var1++;
 
-        var title = new cc.LabelTTF("Test 4", "", 48);
+
+        var rand = parseInt(Math.random()*49+1);
+
+        var title = new cc.LabelTTF("Test 4:" + rand, "", 48);
         title.x = cc.winSize.width / 2;
         title.y = cc.winSize.height * 9 / 10;
         this.addChild(title);
@@ -65,19 +71,21 @@ var Test4Layer = cc.Layer.extend({
     },
 
     onEnter: function () {
-
+        cc.log('onEnter');
     },
 
     onExit: function () {
-
+        //cc.log('onExit');
+        this.removeAllChildren();
+        this.release();
     },
 
     onEnterTransitionDidFinish: function () {
-
+        //cc.log('onEnterTransitionDidFinish');
     },
 
     onExitTransitionDidStart: function () {
-
+        //cc.log('onExitTransitionDidStart');
     },
 
 
