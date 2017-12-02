@@ -2,12 +2,23 @@
 var Test5Layer = cc.Layer.extend({
     balls: [res.ball0, res.ball1, res.ball2, res.ball3, res.ball4],
     isPause: false,
+    bricks: [],
     ctor:function () {
         this._super();
 
+        this.initBrick();
         this.initListener();
 
         return true;
+    },
+
+    initBrick: function () {
+        for (var i=0; i<20; i++){
+            this.bricks[i] = new cc.Sprite(res.brick);
+            this.bricks[i].x = 24 + this.bricks[i].width * i;
+            this.bricks[i].y = cc.winSize.height - 24;
+            this.addChild(this.bricks[i]);
+        }
     },
 
     initListener: function () {
@@ -58,6 +69,22 @@ var Test5Layer = cc.Layer.extend({
         var layer = this.getParent();
 
         if (layer.isPause) return;
+
+        for (var i = 0; i<layer.bricks.length; i++){
+            if (this.y + this.height/2 >= layer.bricks[i].y-layer.bricks[i].height/2 &&
+                this.x >= layer.bricks[i].x - layer.bricks[i].width/2 &&
+                    this.x <= layer.bricks[i].x + layer.bricks[i].width/2
+            ){
+                cc.log('cc');
+                layer.removeChild(layer.bricks[i]);
+                layer.bricks.splice(i,1);
+                this.dy *= -1;
+                break;
+            }
+        }
+
+
+
 
         if (this.x - this.width/2 < 0 ||
         this.x + this.width/2 > cc.winSize.width){
