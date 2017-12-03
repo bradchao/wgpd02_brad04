@@ -15,7 +15,7 @@ var Test5Layer = cc.Layer.extend({
         this.barP0 = new cc.Point(this.bar.x-this.bar.width/2, this.bar.y+this.bar.height/2);
         this.barP1 = new cc.Point(this.bar.x+this.bar.width/2, this.bar.y+this.bar.height/2);
 
-        this.addChild(this.bar);
+        this.addChild(this.bar,10);
 
         this.initBrick();
         this.initListener();
@@ -94,10 +94,18 @@ var Test5Layer = cc.Layer.extend({
 
         ball.x = x;
         ball.y = y;
-        this.addChild(ball);
+        this.addChild(ball,7);
 
         ball.schedule(
             this.balltask, 0.001, cc.REPEAT_FOREVER, 1);
+        ball.schedule(
+            this.ballflip, 0.2, 8, 0);
+    },
+
+    ballflip: function () {
+        this.isFlipX = !this.isFlipX;
+        this.runAction(cc.flipX(this.isFlipX));
+        this.runAction(cc.flipY(this.isFlipX));
     },
 
     balltask: function () {
@@ -106,11 +114,17 @@ var Test5Layer = cc.Layer.extend({
 
         if (layer.isPause ) return;
 
-        if (this.y - this.height/2 < 0){
-            cc.log('loser');
+        cc.log('DEBUG:' + this.y + ":" + this.height);
+        if (this.y + this.height/2 < 0){
+            cc.log('got it');
+            this.unschedule(layer.balltask);
+            this.unschedule(layer.ballflip);
+            layer.removeChild(this);
             return;
         }
 
+        //--------------------------------------------
+        var thisp = new cc.Point(this.x, this.y);
         brad:
         for (var j=layer.bricks.length-1; j>=0; j--) {
             for (var i = 0; i < layer.bricks[j].length; i++) {
@@ -145,7 +159,7 @@ var Test5Layer = cc.Layer.extend({
                 var p1 = new cc.Point(leftX, downY);
                 var p2 = new cc.Point(rightX, upY);
                 var p3 = new cc.Point(rightX, downY);
-                var thisp = new cc.Point(this.x, this.y);
+
 
                 if (cc.pDistance(p0, thisp) < this.width / 2 ||
                     cc.pDistance(p1, thisp) < this.width / 2 ||
@@ -165,6 +179,7 @@ var Test5Layer = cc.Layer.extend({
             }
         }
 
+        //--------------------------------------------------------------
         // 以下判斷撞到bar
         if (this.dy<0 && this.x <= layer.bar.x + layer.bar.width/2  &&
             this.x >= layer.bar.x - layer.bar.width/2 &&
@@ -174,6 +189,9 @@ var Test5Layer = cc.Layer.extend({
                 cc.pDistance(thisp, layer.barP1) < this.width/2)) {
             this.dx *=-1; this.dy *= -1;
         }
+
+        //----------------------------------------------
+
 
         if (this.x - this.width/2 < 0 ||
         this.x + this.width/2 > cc.winSize.width){
@@ -194,6 +212,7 @@ var Test5Layer = cc.Layer.extend({
 var Ball = cc.Sprite.extend({
     dx: 0,  // 單位時間內的移動x距離
     dy: 0,  // 單位時間內的移動y距離
+    isFlipX:false,
     ctor: function (img, dx, dy) {
         this._super(img);
         this.dx = dx; this.dy = dy;
