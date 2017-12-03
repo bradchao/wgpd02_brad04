@@ -101,9 +101,28 @@ var Test5Layer = cc.Layer.extend({
                 break;
             }
 
+            var leftX = layer.bricks[i].x - layer.bricks[i].width/2;
+            var rightX = layer.bricks[i].x + layer.bricks[i].width/2;
+            var upY = layer.bricks[i].y + layer.bricks[i].height/2;
+            var downY = layer.bricks[i].y - layer.bricks[i].height/2;
 
+            var p0 = new cc.Point(leftX, upY);
+            var p1 = new cc.Point(leftX, downY);
+            var p2 = new cc.Point(rightX, upY);
+            var p3 = new cc.Point(rightX, downY);
+            var thisp = new cc.Point(this.x, this.y);
 
-
+            if (cc.pDistance(p0,thisp) < this.width/2 ||
+                cc.pDistance(p1,thisp) < this.width/2 ||
+                cc.pDistance(p2,thisp) < this.width/2 ||
+                cc.pDistance(p3,thisp) < this.width/2) {
+                // 角邊碰撞
+                layer.removeChild(layer.bricks[i]);
+                layer.bricks.splice(i,1);
+                this.dx *= -1;
+                this.dy *= -1;
+                break;
+            }
 
 
         }

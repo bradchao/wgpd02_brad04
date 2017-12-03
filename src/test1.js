@@ -6,6 +6,18 @@ var Test1Layer = cc.Layer.extend({
 
         this.initMenu();
 
+        var x1 = 0;
+        var y1 = 0;
+
+        var x2 = 3;
+        var y2 = 4;
+
+        cc.log(
+            cc.pDistance(
+                new cc.Point(x1,y1),
+                new cc.Point(x2,y2)));
+
+
         return true;
     },
 
