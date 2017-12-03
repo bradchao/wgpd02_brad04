@@ -4,12 +4,17 @@ var Test5Layer = cc.Layer.extend({
     isPause: false,
     bar: null,
     bricks: [[]],
+    barP0:null,
+    barP1:null,
     ctor:function () {
         this._super();
 
         this.bar = new cc.Sprite(res.bar);
         this.bar.x = cc.winSize.width/2;
         this.bar.y = 48;
+        this.barP0 = new cc.Point(this.bar.x-this.bar.width/2, this.bar.y+this.bar.height/2);
+        this.barP1 = new cc.Point(this.bar.x+this.bar.width/2, this.bar.y+this.bar.height/2);
+
         this.addChild(this.bar);
 
         this.initBrick();
@@ -61,11 +66,13 @@ var Test5Layer = cc.Layer.extend({
 
     moveBar: function (isRight) {
         if (isRight && this.bar.x < cc.winSize.width){
-            this.bar.x += 8;
+            this.bar.x += 16;
         }else if (!isRight && this.bar.x > 0){
-            this.bar.x -= 8;
+            this.bar.x -= 16;
         }
 
+        this.barP0 = new cc.Point(this.bar.x-this.bar.width/2, this.bar.y+this.bar.height/2);
+        this.barP1 = new cc.Point(this.bar.x+this.bar.width/2, this.bar.y+this.bar.height/2);
     },
 
     pauseTask: function () {
@@ -77,22 +84,27 @@ var Test5Layer = cc.Layer.extend({
         //cc.log('addBall:' + x + " x " + y);
         var ball = new Ball(
             this.balls[parseInt(Math.random()*5)],
-            parseInt(Math.random()*48) - 24,
-            parseInt(Math.random()*48) - 24
+            parseInt(Math.random()*24) - 12,
+            parseInt(Math.random()*24) - 12
         );
         ball.x = x;
         ball.y = y;
         this.addChild(ball);
 
         ball.schedule(
-            this.balltask, 0.01, cc.REPEAT_FOREVER, 1);
+            this.balltask, 0.05, cc.REPEAT_FOREVER, 1);
     },
 
     balltask: function () {
         // this => who schedule ==> Ball Object
         var layer = this.getParent();
 
-        if (layer.isPause) return;
+        if (layer.isPause ) return;
+
+        if (this.y - this.height/2 < 0){
+            cc.log('loser');
+            return;
+        }
 
         brad:
         for (var j=layer.bricks.length-1; j>=0; j--) {
@@ -141,15 +153,28 @@ var Test5Layer = cc.Layer.extend({
                     this.dy *= -1;
                     break brad;
                 }
+
+
+
+
             }
+        }
+
+        // 以下判斷撞到bar
+        if (this.dy<0 && this.x <= layer.bar.x + layer.bar.width/2  &&
+            this.x >= layer.bar.x - layer.bar.width/2 &&
+            this.y-layer.bar.height/2<=layer.bar.y+layer.bar.height/2){
+            this.dy *= -1;
+        }else if (this.dy<0 && (cc.pDistance(thisp, layer.barP0) < this.width/2 ||
+                cc.pDistance(thisp, layer.barP1) < this.width/2)) {
+            this.dx *=-1; this.dy *= -1;
         }
 
         if (this.x - this.width/2 < 0 ||
         this.x + this.width/2 > cc.winSize.width){
             this.dx *= -1;
         }
-        if (this.y - this.height/2 < 0 ||
-        this.y + this.height/2 > cc.winSize.height){
+        if (this.y + this.height/2 > cc.winSize.height){
             this.dy *= -1;
         }
 
