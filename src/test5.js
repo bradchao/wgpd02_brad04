@@ -87,8 +87,21 @@ var Test5Layer = cc.Layer.extend({
                 break;
             }
 
+            if ( this.y<=layer.bricks[i].y+layer.bricks[i].height/2 &&
+                 this.y>=layer.bricks[i].y-layer.bricks[i].height/2 &&
+                ((this.x<layer.bricks[i].x &&
+                    this.x+this.width/2 >= layer.bricks[i].x-layer.bricks[i].width/2) ||
+                    (this.x>layer.bricks[i].x &&
+                    this.x-this.width/2 <= layer.bricks[i].x+layer.bricks[i].width/2 ))
+            ){
+                // 左右邊碰撞
+                layer.removeChild(layer.bricks[i]);
+                layer.bricks.splice(i,1);
+                this.dx *= -1;
+                break;
+            }
 
-            
+
 
 
 
