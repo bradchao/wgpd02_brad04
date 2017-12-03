@@ -2,9 +2,15 @@
 var Test5Layer = cc.Layer.extend({
     balls: [res.ball0, res.ball1, res.ball2, res.ball3, res.ball4],
     isPause: false,
+    bar: null,
     bricks: [[]],
     ctor:function () {
         this._super();
+
+        this.bar = new cc.Sprite(res.bar);
+        this.bar.x = cc.winSize.width/2;
+        this.bar.y = 48;
+        this.addChild(this.bar);
 
         this.initBrick();
         this.initListener();
@@ -41,10 +47,25 @@ var Test5Layer = cc.Layer.extend({
                 if (keyCode == cc.KEY.space){
                     cc.log('key');
                     layer.pauseTask();
+                }else if (keyCode == cc.KEY.left){
+                    cc.log('left');
+                    layer.moveBar(false);
+                }else if (keyCode == cc.KEY.right){
+                    cc.log('right');
+                    layer.moveBar(true);
                 }
             }
         };
         cc.eventManager.addListener(myKeyListener, this);
+    },
+
+    moveBar: function (isRight) {
+        if (isRight && this.bar.x < cc.winSize.width){
+            this.bar.x += 8;
+        }else if (!isRight && this.bar.x > 0){
+            this.bar.x -= 8;
+        }
+
     },
 
     pauseTask: function () {
@@ -86,8 +107,8 @@ var Test5Layer = cc.Layer.extend({
                         (this.y < layer.bricks[j][i].y && this.y + this.height / 2 >= downY))
                 ) {
                     // 球碰到上下緣
-                    layer.removeChild(layer.bricks[j][i]);
-                    layer.bricks[j].splice(i, 1);
+                    layer.removeChild(layer.bricks[j][i]);  // 看不到
+                    layer.bricks[j].splice(i, 1);       //
                     this.dy *= -1;
                     break brad;
                 }

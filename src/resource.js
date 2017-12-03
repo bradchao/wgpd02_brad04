@@ -11,6 +11,7 @@ var res = {
     ball3 : "res/ball3.png",
     ball4 : "res/ball4.png",
     brick : "res/brick.png",
+    bar : "res/bar.png",
 };
 
 var g_resources = [];
