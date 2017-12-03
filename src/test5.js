@@ -82,17 +82,22 @@ var Test5Layer = cc.Layer.extend({
 
     addBall: function (x, y) {
         //cc.log('addBall:' + x + " x " + y);
+        // var ball = new Ball(
+        //     this.balls[parseInt(Math.random()*5)],
+        //     parseInt(Math.random()*24) - 12,
+        //     parseInt(Math.random()*24) - 12
+        // );
+
         var ball = new Ball(
-            this.balls[parseInt(Math.random()*5)],
-            parseInt(Math.random()*24) - 12,
-            parseInt(Math.random()*24) - 12
+            this.balls[parseInt(Math.random()*5)],2,2
         );
+
         ball.x = x;
         ball.y = y;
         this.addChild(ball);
 
         ball.schedule(
-            this.balltask, 0.05, cc.REPEAT_FOREVER, 1);
+            this.balltask, 0.001, cc.REPEAT_FOREVER, 1);
     },
 
     balltask: function () {
